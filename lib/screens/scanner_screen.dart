@@ -28,21 +28,32 @@ class ScannerScreen extends StatelessWidget {
               },
             ),
           ),
-          Padding(
+          barcodeProvider.barcode.isNotEmpty? Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
               'Scanned Barcode: ${barcodeProvider.barcode}',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-          ),
+          ):SizedBox(),
 
-          ElevatedButton(onPressed: (){
-            if(barcodeProvider.barcode.isNotEmpty){
-              barcodeProvider.addBarcode(barcodeProvider.barcode);
-            }else{
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('No barcode scanned')));
-            }
-          }, child: Text('Save'))
+          Container(
+            margin: EdgeInsets.only(bottom: 16),
+            height: 50,
+            width: 100,
+            child: ElevatedButton(onPressed: (){
+              if(barcodeProvider.barcode.isNotEmpty){
+                barcodeProvider.addBarcode(barcodeProvider.barcode);
+              }else{
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('No barcode scanned')));
+              }
+            }, child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text('Save'),
+                Icon(Icons.save)
+              ],
+            )),
+          )
 
         ],
       ),
