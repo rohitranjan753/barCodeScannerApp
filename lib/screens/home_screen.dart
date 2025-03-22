@@ -1,3 +1,4 @@
+import 'package:barcodescannerapp/constant/text_constant.dart';
 import 'package:barcodescannerapp/provider/barcode_provider.dart';
 import 'package:barcodescannerapp/screens/scanner_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +19,11 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: Colors.deepPurpleAccent.shade100,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         ),
-        title: Text('Barcode Scanner'),
+        title: Text(TextConstant.barCodeScannerTitle),
       ),
       body: Center(
         child: Column(
@@ -47,38 +48,38 @@ class HomeScreen extends StatelessWidget {
                             provider.barcodes[index].barcode,
                             style: TextStyle(
                               fontSize: 17,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           subtitle: Text(
-                            "Date: ${getDate(provider.barcodes[index].date)}",
+                            "${TextConstant.date}${getDate(provider.barcodes[index].date)}",
                           ),
-                          trailing: SizedBox(
-                            width: 100,
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  icon: Icon(Icons.copy),
-                                  onPressed: () {
-                                    final data = provider.barcodes[index];
-                                    Clipboard.setData(
-                                      ClipboardData(text: data.barcode),
-                                    );
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('Copied to clipboard'),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.copy),
+                                onPressed: () {
+                                  final data = provider.barcodes[index];
+                                  Clipboard.setData(
+                                    ClipboardData(text: data.barcode),
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        TextConstant.copiedToClipboard,
                                       ),
-                                    );
-                                  },
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.delete, color: Colors.red),
-                                  onPressed: () {
-                                    provider.removeBarcode(index);
-                                  },
-                                ),
-                              ],
-                            ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete, color: Colors.red),
+                                onPressed: () {
+                                  provider.removeBarcode(index);
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       );
@@ -92,19 +93,16 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButton: ElevatedButton(
         onPressed: () {
-        
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ScannerScreen()),
+            MaterialPageRoute(builder: (context) => ScannerScreen(),),
           );
         },
-        child: SizedBox(
-          width: 100,
-          height: 50,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [Text('Scan Barcode'), Icon(Icons.camera_alt)],
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 10,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [Text(TextConstant.scanBarcode), Icon(Icons.camera_alt)],
         ),
       ),
     );

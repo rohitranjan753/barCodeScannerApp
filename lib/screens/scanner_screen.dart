@@ -1,3 +1,4 @@
+import 'package:barcodescannerapp/constant/text_constant.dart';
 import 'package:barcodescannerapp/provider/barcode_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -13,7 +14,18 @@ class ScannerScreen extends StatelessWidget {
     final barcodeProvider = Provider.of<BarcodeProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Scan Barcode')),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.deepPurpleAccent.shade100,
+        title: Text(TextConstant.barCodeScannerTitle),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -28,33 +40,47 @@ class ScannerScreen extends StatelessWidget {
               },
             ),
           ),
-          barcodeProvider.barcode.isNotEmpty? Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'Scanned Barcode: ${barcodeProvider.barcode}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          barcodeProvider.barcode.isNotEmpty
+              ? Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  '${TextConstant.scannedBarcode}${barcodeProvider.barcode}',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              )
+              : SizedBox(),
+
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  try {
+                    if (barcodeProvider.barcode.isNotEmpty) {
+                      barcodeProvider.addBarcode(barcodeProvider.barcode);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(TextConstant.barcodeSaved)),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(TextConstant.noBarcodeScanned)),
+                      );
+                    }
+                  } catch (e) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(e.toString())));
+                  }
+                },
+                child: Row(
+                  spacing: 15,
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [Text(TextConstant.save), Icon(Icons.save)],
+                ),
+              ),
             ),
-          ):SizedBox(),
-
-          Container(
-            margin: EdgeInsets.only(bottom: 16),
-            height: 50,
-            width: 100,
-            child: ElevatedButton(onPressed: (){
-              if(barcodeProvider.barcode.isNotEmpty){
-                barcodeProvider.addBarcode(barcodeProvider.barcode);
-              }else{
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('No barcode scanned')));
-              }
-            }, child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text('Save'),
-                Icon(Icons.save)
-              ],
-            )),
-          )
-
+          ),
         ],
       ),
     );
