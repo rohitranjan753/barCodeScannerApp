@@ -66,7 +66,7 @@ class ScannerScreen extends StatelessWidget {
                     if (barcodeProvider.barcode.isNotEmpty) {
                       barcodeProvider.addBarcode(barcodeProvider.barcode);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(TextConstant.barcodeSaved),duration: Durations.long2,),
+                        SnackBar(content: Text(TextConstant.barcodeSaved),duration: Durations.long1,),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

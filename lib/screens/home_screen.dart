@@ -38,11 +38,13 @@ class HomeScreen extends StatelessWidget {
                     itemCount: provider.barCodeList.length,
                     itemBuilder: (context, index) {
                       return Container(
+
                         margin: EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 233, 226, 255),
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(8),
                         ),
