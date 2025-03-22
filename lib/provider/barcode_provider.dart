@@ -3,32 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BarcodeProvider extends ChangeNotifier {
-    List<BarCodeModel> _barcodes = [];
+    List<BarCodeModel> _barCodeList = [];
 
-  List<BarCodeModel> get barcodes => _barcodes;
+  List<BarCodeModel> get barCodeList => _barCodeList;
 
   Future<void> addBarcode(String value) async {
-    _barcodes.add(BarCodeModel(value, DateTime.now().toString()));
+    _barCodeList.add(BarCodeModel(value, DateTime.now().toString()));
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('barcodes', _barcodes.map((e) => e.barcode).toList());
+    await prefs.setStringList('barCodeList', _barCodeList.map((e) => e.barcode).toList());
   }
 
   Future<void> removeBarcode(int index) async {
-    _barcodes.removeAt(index);
+    _barCodeList.removeAt(index);
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('barcodes', _barcodes.map((e) => e.barcode).toList());
+    await prefs.setStringList('barCodeList', _barCodeList.map((e) => e.barcode).toList());
   }
 
 
 
-  String _barcode = "";
+  String _barCodeStringValue = "";
 
-  String get barcode => _barcode;
+  String get barcode => _barCodeStringValue;
 
   Future<void> setBarcode(String value) async {
-    _barcode = value;
+    _barCodeStringValue = value;
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('barcode', value);
@@ -36,7 +36,7 @@ class BarcodeProvider extends ChangeNotifier {
 
   Future<void> loadBarcode() async {
     final prefs = await SharedPreferences.getInstance();
-    _barcodes = (prefs.getStringList('barcodes') ?? []).map((e) => BarCodeModel(e, DateTime.now().toString())).toList();
+    _barCodeList = (prefs.getStringList('barCodeList') ?? []).map((e) => BarCodeModel(e, DateTime.now().toString())).toList();
     notifyListeners();
   }
 }

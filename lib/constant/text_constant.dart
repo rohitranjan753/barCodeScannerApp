@@ -1,5 +1,4 @@
-//Static string constants are defined in the text_constant.dart file. The following code snippet shows how to define a static string constant in the text_constant.dart file.
-
+// This TextConstant class contains all the text constants used in the app.
 
 class TextConstant {
   static const String barCodeScannerTitle = 'Barcode scanner';

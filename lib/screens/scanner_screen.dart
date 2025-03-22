@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 
+// This widget is used to scan the barcode using the camera.
+// When the user jumps to this screen, the camera will be opened, and the user can scan the barcode.
+// The barcode will be displayed on the screen, and the user can save it by pressing the save button.
 class ScannerScreen extends StatelessWidget {
   final MobileScannerController scannerController = MobileScannerController();
 
@@ -29,6 +32,8 @@ class ScannerScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // This widget is used to scan the barcode using the camera.
+          // It is a MobileScanner widget that scans the barcode and returns the barcode value.
           Expanded(
             child: MobileScanner(
               controller: scannerController,
@@ -50,6 +55,8 @@ class ScannerScreen extends StatelessWidget {
               )
               : SizedBox(),
 
+          // This widget is used to save the scanned barcode.
+          // It is an ElevatedButton that saves the barcode to the shared preferences when pressed.
           Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -59,7 +66,7 @@ class ScannerScreen extends StatelessWidget {
                     if (barcodeProvider.barcode.isNotEmpty) {
                       barcodeProvider.addBarcode(barcodeProvider.barcode);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(TextConstant.barcodeSaved)),
+                        SnackBar(content: Text(TextConstant.barcodeSaved),duration: Durations.long2,),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

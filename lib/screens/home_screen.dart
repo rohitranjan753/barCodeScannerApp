@@ -8,7 +8,8 @@ import 'package:provider/provider.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  //date utility fucntion, show day, month and year
+  // This method is used to format the date in the format dd/mm/yyyy.
+  // It takes a date string as an argument and returns a formatted date string.
   String getDate(String date) {
     final DateTime dateTime = DateTime.parse(date);
     return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
@@ -28,11 +29,13 @@ class HomeScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+            // This widget is used to display the list of scanned barCodeList.
+            // It is a ListView.builder that displays the barcode and the date it was scanned.
             Expanded(
               child: Consumer<BarcodeProvider>(
                 builder: (context, provider, child) {
                   return ListView.builder(
-                    itemCount: provider.barcodes.length,
+                    itemCount: provider.barCodeList.length,
                     itemBuilder: (context, index) {
                       return Container(
                         margin: EdgeInsets.symmetric(
@@ -45,14 +48,14 @@ class HomeScreen extends StatelessWidget {
                         ),
                         child: ListTile(
                           title: Text(
-                            provider.barcodes[index].barcode,
+                            provider.barCodeList[index].barcode,
                             style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                           subtitle: Text(
-                            "${TextConstant.date}${getDate(provider.barcodes[index].date)}",
+                            "${TextConstant.date}${getDate(provider.barCodeList[index].date)}",
                           ),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -60,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                               IconButton(
                                 icon: Icon(Icons.copy),
                                 onPressed: () {
-                                  final data = provider.barcodes[index];
+                                  final data = provider.barCodeList[index];
                                   Clipboard.setData(
                                     ClipboardData(text: data.barcode),
                                   );
@@ -91,6 +94,8 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+      // This widget is used to navigate to the ScannerScreen.
+      // When pressed on it, it will take the user to the ScannerScreen.
       floatingActionButton: ElevatedButton(
         onPressed: () {
           Navigator.push(
